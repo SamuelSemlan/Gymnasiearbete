@@ -6,13 +6,13 @@ public class Gun : MonoBehaviour {
 
 	RaycastHit hit;
 
-	[SerializeField] Camera fpsCam;
-	[SerializeField] ParticleSystem muzzleFlash;
-	[SerializeField] GameObject impactEffect;
+	public Camera fpsCam;
+	public ParticleSystem muzzleFlash;
+	public GameObject impactEffect;
 
-	[SerializeField] float fireRate = 15f;
-	[SerializeField] float damage;
-	[SerializeField] float range;
+	public float fireRate = 15f;
+	public float damage;
+	public float range;
 
 	private float nextTimeToFire = 0f;
 	
@@ -27,8 +27,8 @@ public class Gun : MonoBehaviour {
 
 	void Shoot(){
 
-//		muzzleFlash.Stop();
-//		muzzleFlash.Play();
+		muzzleFlash.Stop();
+		muzzleFlash.Play();
 
 		if(Physics.Raycast(fpsCam.transform.position, fpsCam.transform.forward, out hit, range)){
 
