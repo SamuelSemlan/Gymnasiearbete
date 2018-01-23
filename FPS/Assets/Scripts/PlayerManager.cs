@@ -13,49 +13,48 @@ public class PlayerManager : MonoBehaviour {
 	[SerializeField] private Camera weaponCam;
 	[SerializeField] private float cameraRotationLimit = 85f;
 
+	public LayerMask groundLayers;
+	public CapsuleCollider col;
 	public float jumpForce;
 
 	void Start ()
 	{
 		rb = GetComponent<Rigidbody>();
+		col = GetComponent<CapsuleCollider>();
 	}
 
-	// Gets a movement vector
 	public void Move (Vector3 _velocity)
 	{
 		velocity = _velocity;
 	}
 
-	// Gets a rotational vector
 	public void Rotate(Vector3 _rotation)
 	{
 		rotation = _rotation;
 	}
 
-	// Gets a rotational vector for the camera
 	public void RotateCamera(float _cameraRotationX)
 	{
 		cameraRotationX = _cameraRotationX;
 	}
 
-	// Run every physics iteration
 	void FixedUpdate ()
 	{
-
-//        grounded = Physics.Linecast(transform.position, groundCheck.position, 1<< LayerMask.NameToLayer("Ground"));
-
-        if ((Input.GetButtonDown("Jump")))
+        if (isGrounded() && Input.GetKeyDown(KeyCode.Space))
         {
-			Debug.Log("It works!");
-            rb.AddForce(transform.up * jumpForce * Time.deltaTime);
+            rb.AddForce(Vector3.up * jumpForce * Time.deltaTime, ForceMode.Impulse);
 		}
-
 
 		PerformMovement();
 		PerformRotation();
 	}
 
-	//Perform movement based on velocity variable
+	private bool isGrounded(){
+		return Physics.CheckCapsule(col.bounds.center, new Vector3(col.bounds.center.x,
+		 col.bounds.min.y, col.bounds.center.z), col.radius * .5f, groundLayers);
+
+	}
+
 	void PerformMovement ()
 	{
 		if (velocity != Vector3.zero)
@@ -64,13 +63,11 @@ public class PlayerManager : MonoBehaviour {
 		}
 
 	}
-	//Perform rotation
 	void PerformRotation ()
 	{
 		rb.MoveRotation(rb.rotation * Quaternion.Euler (rotation));
 		if (cam != null)
 		{
-			// Set our rotation and clamp it
 			currentCameraRotationX -= cameraRotationX;
 			currentCameraRotationX = Mathf.Clamp(currentCameraRotationX, -cameraRotationLimit, cameraRotationLimit);
 
