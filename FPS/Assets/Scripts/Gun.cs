@@ -32,14 +32,14 @@ public class Gun : MonoBehaviour {
 
 		if(Physics.Raycast(fpsCam.transform.position, fpsCam.transform.forward, out hit, range)){
 
-			Target target = hit.transform.GetComponent<Target>();
+			Enemy target = hit.transform.GetComponent<Enemy>();
 			if(target != null){
 				target.TakeDamage(damage);
 			}
 
-			if(hit.rigidbody != null){
-				hit.rigidbody.AddForce(-hit.normal * 100);
-			}
+//			if(hit.rigidbody != null){
+//				hit.rigidbody.AddForce(-hit.normal * 100);
+//			}
 
 			BulletImpact();
 		}
@@ -47,6 +47,6 @@ public class Gun : MonoBehaviour {
 
 	void BulletImpact(){
 		GameObject impactGo = Instantiate(impactEffect, hit.point, Quaternion.LookRotation(hit.normal));
-		Destroy(impactGo, 1f);
+//		Destroy(impactGo, 1f);
 	}
 }

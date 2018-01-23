@@ -6,7 +6,8 @@ public class Grenade : MonoBehaviour {
 
 	public float delay = 3f;
 	public float radius = 5f;
-	public float force = 700;
+	public float force = 700f;
+	public float explosionDamage = 5f;
 
 	public GameObject explosionEffect;
 
@@ -35,6 +36,10 @@ public class Grenade : MonoBehaviour {
 			Destructible dest = nearbyObject.GetComponent<Destructible>();
 			if(dest != null){
 				dest.Destroy();
+			}
+			Enemy enemy = nearbyObject.GetComponent<Enemy>();
+			if(enemy != null){
+				enemy.TakeDamage(explosionDamage);
 			}
 		}
 

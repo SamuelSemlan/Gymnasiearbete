@@ -40,31 +40,21 @@ public class PlayerManager : MonoBehaviour {
 
 	void FixedUpdate ()
 	{
-        if (isGrounded() && Input.GetKeyDown(KeyCode.Space))
-        {
-            rb.AddForce(Vector3.up * jumpForce * Time.deltaTime, ForceMode.Impulse);
-		}
-
+		PerfomJump();
 		PerformMovement();
 		PerformRotation();
 	}
 
-	private bool isGrounded(){
-		return Physics.CheckCapsule(col.bounds.center, new Vector3(col.bounds.center.x,
-		 col.bounds.min.y, col.bounds.center.z), col.radius * .5f, groundLayers);
 
-	}
 
-	void PerformMovement ()
-	{
+	void PerformMovement (){
 		if (velocity != Vector3.zero)
 		{
 			rb.MovePosition(rb.position + velocity * Time.fixedDeltaTime);
 		}
 
 	}
-	void PerformRotation ()
-	{
+	void PerformRotation (){
 		rb.MoveRotation(rb.rotation * Quaternion.Euler (rotation));
 		if (cam != null)
 		{
@@ -78,7 +68,19 @@ public class PlayerManager : MonoBehaviour {
 	}
 
 	void PerfomJump(){
+        if (isGrounded() && Input.GetKeyDown(KeyCode.Space))
+        {
+            rb.AddForce(Vector3.up * jumpForce * Time.deltaTime, ForceMode.Impulse);
+		}
+	}
 
+	private bool isGrounded(){
+		return Physics.CheckCapsule(col.bounds.center, new Vector3(col.bounds.center.x,
+		 col.bounds.min.y, col.bounds.center.z), col.radius * .5f, groundLayers);
+	}
+
+	public void TakeDamage(){
+		
 	}
 
 }
