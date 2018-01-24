@@ -13,6 +13,8 @@ public class PlayerManager : MonoBehaviour {
 	[SerializeField] private Camera weaponCam;
 	[SerializeField] private float cameraRotationLimit = 85f;
 
+	public GameObject enemy;
+
 	public LayerMask groundLayers;
 	public CapsuleCollider col;
 	public float jumpForce;
@@ -40,6 +42,11 @@ public class PlayerManager : MonoBehaviour {
 
 	void FixedUpdate ()
 	{
+
+		if(Input.GetKeyDown(KeyCode.T)){
+			Instantiate(enemy, enemy.transform.position, enemy.transform.rotation);
+		}
+
 		PerfomJump();
 		PerformMovement();
 		PerformRotation();
